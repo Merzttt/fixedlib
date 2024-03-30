@@ -949,6 +949,51 @@ end
     end)
   end
 
+function SectionTable:TextBox(defaultText)
+    local Info = {
+        Text = defaultText or "TextBox",
+        Color = Colors.PrimaryText,
+        DefaultText = defaultText or ""
+    }
+
+    local TextBoxTable = {}
+
+    local TextBox = Utilities:Create("Frame", {
+        Name = "TextBox",
+        Parent = SectionContainer,
+        Size = UDim2.new(0, 286, 0, 21),
+        BackgroundTransparency = 1
+    }, {
+        Utilities:Create("TextBox", {
+            Name = "TextBoxText",
+            Text = Info.DefaultText, -- Use default text parameter here
+            TextColor3 = Info.Color,
+            BackgroundColor3 = Colors.TextBoxBackground,
+            BorderSizePixel = 0,
+            Size = UDim2.new(0, 286, 0, 14),
+            TextXAlignment = Enum.TextXAlignment.Left,
+            TextSize = 13,
+            Font = Enum.Font.SourceSans,
+            ClearTextOnFocus = false -- Prevents text from being cleared when the TextBox is focused
+        })
+    })
+
+    function TextBoxTable:Set(str, color)
+        str = str or TextBox.TextBoxText.Text
+        color = color or Info.Color
+
+        TextBox.TextBoxText.Text = str
+        TextBox.TextBoxText.TextColor3 = color
+    end
+
+    function TextBoxTable:Get()
+        return TextBox.TextBoxText.Text
+    end
+
+    return TextBoxTable
+end
+
+
   function SectionTable:Label(Info)
     Info.Text = Info.Text or "Label"
     Info.Color = Info.Color or Colors.PrimaryText
